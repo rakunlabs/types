@@ -86,7 +86,7 @@ func TestJSON(t *testing.T) {
 		})
 
 		t.Run("json marshal number", func(t *testing.T) {
-			v := map[string]interface{}{
+			v := map[string]any{
 				"name": json.Number("1"),
 			}
 

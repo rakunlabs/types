@@ -3,7 +3,7 @@ package validator
 import (
 	"testing"
 
-	"github.com/shopspring/decimal"
+	"github.com/greatcloak/decimal"
 )
 
 func TestValidator(t *testing.T) {

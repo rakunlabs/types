@@ -9,7 +9,7 @@ import (
 
 type Slice[T any] []T
 
-func (s *Slice[T]) Scan(value interface{}) error {
+func (s *Slice[T]) Scan(value any) error {
 	switch v := value.(type) {
 	case []byte:
 		// Parse the JSON data

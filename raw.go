@@ -8,7 +8,7 @@ import (
 // RawJSON same functionality with json.RawMessage and scan and value methods.
 type RawJSON []byte
 
-func (r *RawJSON) Scan(value interface{}) error {
+func (r *RawJSON) Scan(value any) error {
 	var source []byte
 	switch v := value.(type) {
 	case []byte:

@@ -4,7 +4,7 @@ import (
 	"reflect"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/shopspring/decimal"
+	"github.com/greatcloak/decimal"
 )
 
 var V *validator.Validate
@@ -23,7 +23,7 @@ func New() *validator.Validate {
 	return v
 }
 
-func validateDecimal(field reflect.Value) interface{} {
+func validateDecimal(field reflect.Value) any {
 	if dec, ok := field.Interface().(decimal.Decimal); ok {
 		v, _ := dec.Float64()
 		return v
@@ -32,7 +32,7 @@ func validateDecimal(field reflect.Value) interface{} {
 	return nil
 }
 
-func validateNullDecimal(field reflect.Value) interface{} {
+func validateNullDecimal(field reflect.Value) any {
 	if dec, ok := field.Interface().(decimal.NullDecimal); ok {
 		if dec.Valid {
 			v, _ := dec.Decimal.Float64()
@@ -47,6 +47,6 @@ func validateNullDecimal(field reflect.Value) interface{} {
 //
 // It returns InvalidValidationError for bad values passed in and nil or ValidationErrors as error otherwise.
 // You will need to assert the error if it's not nil eg. err.(validator.ValidationErrors) to access the array of errors.
-func Struct(s interface{}) error {
+func Struct(s any) error {
 	return V.Struct(s)
 }

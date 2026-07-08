@@ -16,7 +16,7 @@ func NewJSON[T any](v T) JSON[T] {
 	return JSON[T]{V: v, Valid: true}
 }
 
-func (s *JSON[T]) Scan(value interface{}) error {
+func (s *JSON[T]) Scan(value any) error {
 	if value == nil {
 		s.V, s.Valid = *new(T), false
 

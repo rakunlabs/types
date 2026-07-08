@@ -3,7 +3,7 @@ package handler
 import (
 	"encoding/json"
 
-	"github.com/shopspring/decimal"
+	"github.com/greatcloak/decimal"
 	"github.com/worldline-go/types"
 )
 

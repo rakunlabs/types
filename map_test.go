@@ -4,7 +4,7 @@ import "testing"
 
 func TestMap_Scan(t *testing.T) {
 	type args struct {
-		value interface{}
+		value any
 	}
 	tests := []struct {
 		name    string

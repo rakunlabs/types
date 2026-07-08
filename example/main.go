@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/greatcloak/decimal"
 	"github.com/rs/zerolog/log"
-	"github.com/shopspring/decimal"
 	"github.com/worldline-go/initializer"
 	"github.com/worldline-go/types"
 	"github.com/worldline-go/types/example/database"
@@ -42,7 +42,7 @@ func run(ctx context.Context) error {
 	}
 
 	id, err := dbHandler.CreateTrain(ctx, &handler.Train{
-		Details: map[string]interface{}{
+		Details: map[string]any{
 			"from":  "Istanbul",
 			"to":    "Amsterdam",
 			"value": 123.65,
@@ -127,7 +127,7 @@ func run(ctx context.Context) error {
 	return nil
 }
 
-func jsonLog(v interface{}) error {
+func jsonLog(v any) error {
 	trainJSON, err := json.Marshal(v)
 	if err != nil {
 		return err

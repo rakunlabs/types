@@ -22,7 +22,7 @@ func (m *Map[T]) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (m *Map[T]) Scan(value interface{}) error {
+func (m *Map[T]) Scan(value any) error {
 	switch v := value.(type) {
 	case []byte:
 		// Parse the JSON data

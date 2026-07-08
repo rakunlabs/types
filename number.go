@@ -1,6 +1,6 @@
 package types
 
-import "github.com/shopspring/decimal"
+import "github.com/greatcloak/decimal"
 
 // Set default decimal.MarshalJSONWithoutQuotes to true.
 //   - This will remove the quotes from the json output.
