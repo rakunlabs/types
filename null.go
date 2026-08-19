@@ -94,3 +94,23 @@ func (n *Null[T]) Scan(value any) error {
 
 	return nil
 }
+
+// Merge merges the current Null[T] with an old one, preserving the old value if the current one is not valid and not explicitly set to null.
+//
+// This relies on types.Null's ParsedNull marker, which captures what a plain Go
+// zero value cannot: whether the client said "leave this alone" or
+// "make this empty".
+func (n *Null[T]) Merge(old Null[T]) {
+	if n.Valid || n.ParsedNull {
+		return
+	}
+
+	*n = old
+}
+
+// Present reports whether the field was in the update JSON at all, with either
+// a value or an explicit null. Use it when a merge is not a straight
+// replacement — a secret that is kept unless explicitly cleared, say.
+func (n *Null[T]) Present() bool {
+	return n.Valid || n.ParsedNull
+}

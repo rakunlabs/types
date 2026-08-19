@@ -61,7 +61,8 @@ type Train struct {
 
 ### types.Null[T]
 
-Wrapper of `sql.Null[T]` with additional json marshal and unmarshal methods.
+Wrapper of `sql.Null[T]` with additional json marshal and unmarshal methods.   
+It can distinguish between an explicit null value and an empty or missing request.
 
 ### types.Time and types.Null[types.Time]
 

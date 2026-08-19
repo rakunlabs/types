@@ -3,13 +3,9 @@ package types
 import (
 	"encoding/json"
 	"testing"
-	"time"
 )
 
 func TestTime_UnmarshalJSON(t *testing.T) {
-	type fields struct {
-		Time time.Time
-	}
 	tests := []struct {
 		name    string
 		args    [][]byte
