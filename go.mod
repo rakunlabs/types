@@ -1,4 +1,4 @@
-module github.com/worldline-go/types
+module github.com/rakunlabs/types
 
 go 1.25.0
 

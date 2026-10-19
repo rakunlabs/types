@@ -3,13 +3,13 @@ package database
 import (
 	"context"
 	"fmt"
+	"log/slog"
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/rs/zerolog/log"
-	"github.com/worldline-go/igmigrator/v2"
+	"github.com/rakunlabs/muz"
 )
 
 var (
@@ -33,15 +33,20 @@ func Connect(ctx context.Context) (*sqlx.DB, error) {
 }
 
 func MigrateDB(ctx context.Context, db *sqlx.DB) error {
-	result, err := igmigrator.Migrate(ctx, db, &igmigrator.Config{})
-	if err != nil {
-		return fmt.Errorf("run migrations: %w", err)
+	m := muz.Migrate{
+		Path:      "migrations",
+		Extension: ".sql",
 	}
 
-	for dir, r := range result.Path {
-		if r.NewVersion != r.PrevVersion {
-			log.Info().Msgf("path [%s] ran migrations from version %d to %d", dir, r.NewVersion, r.PrevVersion)
-		}
+	driver := &muz.SQLDriver{
+		DB:      db.DB,
+		Dialect: muz.DialectPostgres,
+		Table:   "migrations",
+		Logger:  slog.Default(),
+	}
+
+	if err := m.Migrate(ctx, driver); err != nil {
+		return fmt.Errorf("run migrations: %w", err)
 	}
 
 	return nil

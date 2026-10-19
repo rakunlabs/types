@@ -4,20 +4,22 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
+	"log/slog"
 	"time"
 
 	"github.com/greatcloak/decimal"
-	"github.com/rs/zerolog/log"
-	"github.com/worldline-go/initializer"
-	"github.com/worldline-go/types"
-	"github.com/worldline-go/types/example/database"
-	"github.com/worldline-go/types/example/handler"
+	"github.com/rakunlabs/into"
+	"github.com/rakunlabs/logi"
+	"github.com/rakunlabs/types"
+	"github.com/rakunlabs/types/example/database"
+	"github.com/rakunlabs/types/example/handler"
 )
 
 func main() {
-	initializer.Init(
+	into.Init(
 		run,
-		initializer.WithMsgf("types example"),
+		into.WithLogger(logi.InitializeLog()),
+		into.WithMsgf("types example"),
 	)
 }
 
@@ -63,7 +65,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	log.Info().Int64("id", id).Msg("Train ID")
+	slog.Info("Train ID", "id", id)
 
 	// ////////////////////////////////////////
 	// Get a train
@@ -72,13 +74,15 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	log.Info().Interface("details", train.Details).Str("price", train.Price.V.String()).
-		Stringer("value", train.Details["value"].(json.Number)).
-		Str("peron", train.Details["peron"].(json.Number).String()).
-		Str("rate", train.Rate.V).
-		Str("custom_number", train.CustomNumber.V).
-		Str("created_at", train.CreatedAt.V.String()).
-		Msg("Train Get")
+	slog.Info("Train Get",
+		"details", train.Details,
+		"price", train.Price.V.String(),
+		"value", train.Details["value"].(json.Number).String(),
+		"peron", train.Details["peron"].(json.Number).String(),
+		"rate", train.Rate.V,
+		"custom_number", train.CustomNumber.V,
+		"created_at", train.CreatedAt.V.String(),
+	)
 
 	jsonLog(train)
 
@@ -87,7 +91,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	log.Info().Interface("additionals", additionals).Msg("Train Get Additional with ToMap")
+	slog.Info("Train Get Additional with ToMap", "additionals", additionals)
 
 	// ////////////////////////////////////////
 	// Update train to set back as null in database
@@ -102,7 +106,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	log.Info().RawJSON("train", trainRaw).Msg("Train Data For Update")
+	slog.Info("Train Data For Update", "train", string(trainRaw))
 
 	if err := dbHandler.UpdateTrain(ctx, id, train); err != nil {
 		return err
@@ -116,11 +120,13 @@ func run(ctx context.Context) error {
 	}
 
 	// Details now is nil
-	log.Info().Interface("details", train.Details).Interface("additionals", train.Additionals).
-		Str("price", train.Price.V.String()).
-		Str("last_price", train.LastPrice.Decimal.String()).
-		Str("rate", train.Rate.V).
-		Msg("Train Updated")
+	slog.Info("Train Updated",
+		"details", train.Details,
+		"additionals", train.Additionals,
+		"price", train.Price.V.String(),
+		"last_price", train.LastPrice.Decimal.String(),
+		"rate", train.Rate.V,
+	)
 
 	jsonLog(train)
 
@@ -133,7 +139,7 @@ func jsonLog(v any) error {
 		return err
 	}
 
-	log.Info().RawJSON("train", trainJSON).Msg("Train get with RawJSON")
+	slog.Info("Train get with RawJSON", "train", string(trainJSON))
 
 	return nil
 }

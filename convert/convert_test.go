@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/worldline-go/types"
+	"github.com/rakunlabs/types"
 )
 
 func TestTimeFormatPtr(t *testing.T) {

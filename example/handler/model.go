@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/greatcloak/decimal"
-	"github.com/worldline-go/types"
+	"github.com/rakunlabs/types"
 )
 
 type Train struct {

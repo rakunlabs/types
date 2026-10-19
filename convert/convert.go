@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/worldline-go/types"
+	"github.com/rakunlabs/types"
 )
 
 func NullToPtr[T any](v types.Null[T]) *T {
